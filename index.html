@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <input id="input" data-value="inputValue" type="text">
+    <div class="data" data-content="inputValue"></div>
+    <button class="button">
+        add
+    </button>
+</div>
+
+<script>
+
+    const state = new Proxy({
+        inputValue: ''
+    }, {
+        set(target, prop, value) {
+            target[prop] = value;
+            updateDiv()
+            return true
+        },
+    })
+
+    document.getElementById('input').addEventListener('input', (e) => {
+        state.inputValue = e.target.value
+    })
+
+    document.querySelector('.button').addEventListener('click', () => {
+        state.inputValue += '1'
+    })
+
+    function updateDiv() {
+        document.getElementById('input').value = state.inputValue
+        document.querySelector('.data').textContent = state.inputValue
+    }
+
+</script>
+</body>
+</html>
